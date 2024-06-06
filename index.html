@@ -24,10 +24,44 @@
 <link rel="stylesheet" type="text/css" href="css/owl.carousel.css">
 <link rel="stylesheet" type="text/css" href="css/owl.theme.css">
 <link rel="stylesheet" type="text/css" href="css/owl.transitions.css">
-<!--[if lt IE 9]>
-    <script src="js/html5shiv.js"></script>
-    <script src="js/respond.min.js"></script>
-  [endif]-->
+<style>
+  .portfolio-item {
+      padding: 15px;
+  }
+
+  .portfolio-item-inner {
+      border: 1px solid #ddd;
+      padding: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      position: relative;
+      height: 300px; /* Ensure all items have the same height */
+  }
+
+  .portfolio-item-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* Ensure images cover the box while maintaining aspect ratio */
+      position: absolute;
+      top: 0;
+      left: 0;
+  }
+
+  .portfolio-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.5);
+      color: #fff;
+      padding: 10px;
+      text-align: center;
+  }
+
+  .portfolio-info a {
+      color: #fff;
+  }
+</style>
 </head>
 <body data-spy="scroll" data-target=".navbar-default" data-offset="100">
 <!--Preloader-->
@@ -316,83 +350,128 @@ Saya percaya bahwa kombinasi kualifikasi akademis, pengalaman seni, serta kemamp
 <!--Portfolio-Section-Start-->
 <section id="portfolio">
   <div class="container">
-    <div class="col-md-8 col-md-offset-2">
-      <div class="heading">
-        <h2>GALERI KEAHLIAN</h2>
-        <div class="line"></div>
-      <br>
+      <div class="col-md-8 col-md-offset-2">
+          <div class="heading">
+              <h2>GALERI KEAHLIAN</h2>
+              <div class="line"></div>
+              <br>
+          </div>
       </div>
-    </div>
-    <div class="text-center">
-      <ul class="portfolio-filter">
-        <li><a class="active" href="#" data-filter="*">All Works</a></li>
-        <li><a href="#" data-filter=".creative">Web</a></li>
-        <li><a href="#" data-filter=".corporate">Android</a></li>
-        <li><a href="#" data-filter=".desain">Desain</a></li>
-        <li><a href="#" data-filter=".portfolio">Seni</a></li>
-        <li><a href="#" data-filter=".sertifikat">Sertifikat</a></li>
-      </ul>
-    </div>
-    <div class="portfolio-items" id="portfolio-items"></div>
+      <div class="text-center">
+          <ul class="portfolio-filter">
+              <li><a class="active" href="#" data-filter="*">All Works</a></li>
+              <li><a href="#" data-filter=".creative">Web</a></li>
+              <li><a href="#" data-filter=".corporate">Android</a></li>
+              <li><a href="#" data-filter=".desain">Desain</a></li>
+              <li><a href="#" data-filter=".portfolio">Seni</a></li>
+              <li><a href="#" data-filter=".sertifikat">Sertifikat</a></li>
+          </ul>
+      </div>
+      <div class="portfolio-items" id="portfolio-items"></div>
   </div>
 </section>
 
 <script>
-  const categories = {
-    web: 'creative',
-    sertifikat: 'sertifikat',
-    desain: 'desain',
-    seni: 'portfolio',
-    android: 'corporate'
+  const images = {
+      web: [
+          'images/web/1.png',
+          'images/web/2.png',
+          'images/web/3.png',
+          // Add more images as needed
+      ],
+      sertifikat: [
+          'images/sertifikat/1.jpg',
+          'images/sertifikat/2.jpg',
+          'images/sertifikat/3.jpg',
+          'images/sertifikat/4.jpg',
+          'images/sertifikat/5.jpg',
+          'images/sertifikat/6.jpg',
+          'images/sertifikat/7.jpg',
+          'images/sertifikat/8.jpg',
+          'images/sertifikat/9.jpg',
+          'images/sertifikat/10.jpg',
+          'images/sertifikat/11.jpg',
+          'images/sertifikat/12.jpg',
+          'images/sertifikat/13.jpg',
+          // Add more images as needed
+      ],
+      desain: [
+          'images/desain/1.jpeg',
+          'images/desain/2.jpeg',
+          'images/desain/3.jpeg',
+          'images/desain/4.jpeg',
+          'images/desain/5.jpeg',
+          'images/desain/6.jpeg',
+          'images/desain/7.jpeg',
+          'images/desain/8.jpeg',
+          'images/desain/9.jpeg',
+
+          // Add more images as needed
+      ],
+      seni: [
+          'images/seni/1.jpg',
+          'images/seni/2.jpg',
+          'images/seni/3.webp',
+          'images/seni/4.webp',
+          'images/seni/5.webp',
+          'images/seni/6.webp',
+          'images/seni/7.webp',
+          'images/seni/8.webp',
+          'images/seni/9.webp',
+
+          // Add more images as needed
+      ],
+      android: [
+          'images/android/1.jpeg',
+          'images/android/2.jpeg',
+          'images/android/3.jpeg',
+          'images/android/4.jpeg',
+          'images/android/5.jpeg',
+          // Add more images as needed
+      ]
   };
 
-  function getImagesFromFolder(folder) {
-    const images = [];
-    const imageTypes = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
-    imageTypes.forEach(type => {
-      for (let i = 1; i <= 10; i++) { // Assume you have 10 images max per category
-        const imagePath = `${folder}/image${i}.${type}`;
-        images.push(imagePath);
-      }
-    });
-    return images;
-  }
+  const categories = {
+      web: 'creative',
+      sertifikat: 'sertifikat',
+      desain: 'desain',
+      seni: 'portfolio',
+      android: 'corporate'
+  };
 
   function loadImages() {
-    const portfolioItems = document.getElementById('portfolio-items');
-    for (const category in categories) {
-      const images = getImagesFromFolder(`images/${category}`);
-      images.forEach(image => {
-        const imgElement = document.createElement('img');
-        imgElement.src = image;
-        imgElement.className = 'img-responsive';
+      const portfolioItems = document.getElementById('portfolio-items');
+      for (const category in images) {
+          const imageList = images[category];
+          imageList.forEach(image => {
+              const imgElement = document.createElement('img');
+              imgElement.src = image;
+              imgElement.className = 'img-responsive';
 
-        const portfolioInfo = document.createElement('div');
-        portfolioInfo.className = 'portfolio-info';
-        portfolioInfo.innerHTML = `
-          <a class="preview" href="${image}" data-rel="prettyPhoto"><i class="fa fa-plus-circle"></i></a>
-          <h6>${category.charAt(0).toUpperCase() + category.slice(1)} Item</h6>
-          <p>Lorem Ipsum</p>
-        `;
+              const portfolioInfo = document.createElement('div');
+              portfolioInfo.className = 'portfolio-info';
+              portfolioInfo.innerHTML = `
+                  <a class="preview" href="${image}" data-rel="prettyPhoto"><i class="fa fa-plus-circle"></i></a>
+                  <h6>${category.charAt(0).toUpperCase() + category.slice(1)} Item</h6>
+                  <p>Lorem Ipsum</p>
+              `;
 
-        const portfolioItemInner = document.createElement('div');
-        portfolioItemInner.className = 'portfolio-item-inner';
-        portfolioItemInner.appendChild(imgElement);
-        portfolioItemInner.appendChild(portfolioInfo);
+              const portfolioItemInner = document.createElement('div');
+              portfolioItemInner.className = 'portfolio-item-inner';
+              portfolioItemInner.appendChild(imgElement);
+              portfolioItemInner.appendChild(portfolioInfo);
 
-        const portfolioItem = document.createElement('div');
-        portfolioItem.className = `col-md-4 col-sm-6 col-xs-12 portfolio-item ${categories[category]}`;
-        portfolioItem.appendChild(portfolioItemInner);
+              const portfolioItem = document.createElement('div');
+              portfolioItem.className = `col-md-4 col-sm-6 col-xs-12 portfolio-item ${categories[category]}`;
+              portfolioItem.appendChild(portfolioItemInner);
 
-        portfolioItems.appendChild(portfolioItem);
-      });
-    }
+              portfolioItems.appendChild(portfolioItem);
+          });
+      }
   }
 
   document.addEventListener('DOMContentLoaded', loadImages);
 </script>
-
-
 <!--Blog-Section-Start-->
 <section id="blog">
   <div class="container">
@@ -481,17 +560,19 @@ Saya percaya bahwa kombinasi kualifikasi akademis, pengalaman seni, serta kemamp
 </script>
 
 <footer id="footer">
-  <div class="bg-sec">
-    
-  </div>
+
 </footer>
 <footer id="footer-down">
   <h2>Follow</h2>
   <ul class="social-icon">
+    <li class="github hvr-pulse"><a href="https://www.facebook.com/profile.php?id=100091507386358&mibextid=ZbWKwL"><i class="fa fa-github"></i></a></li>
     <li class="facebook hvr-pulse"><a href="https://www.facebook.com/profile.php?id=100091507386358&mibextid=ZbWKwL"><i class="fa fa-facebook-f"></i></a></li>
     <li class="instagram hvr-pulse"><a href="https://www.instagram.com/azka_reformasi?igsh=MXJiOThwMjZycmt3MQ=="><i class="fa fa-instagram"></i></a></li>
     <li class="whatsapp hvr-pulse"><a href="https://wa.me/081902847149"><i class="fa fa-whatsapp"></i></a></li>
   </ul>
+  <div class="bg-sec">
+    
+  </div>
 </footer>
 <!--Jquery-->
 <script type="text/javascript" src="js/jquery.min.js"></script>
