@@ -323,97 +323,75 @@ Saya percaya bahwa kombinasi kualifikasi akademis, pengalaman seni, serta kemamp
       <br>
       </div>
     </div>
-    <?php
-function getImagesFromFolder($folderPath) {
-    return glob($folderPath . '/*.{jpg,jpeg,png,gif,webp}', GLOB_BRACE);
-}
-
-$webImages = getImagesFromFolder('images/web');
-$sertifikatImages = getImagesFromFolder('images/sertifikat');
-$desainImages = getImagesFromFolder('images/desain');
-$seniImages = getImagesFromFolder('images/seni');
-$androidImages = getImagesFromFolder('images/android');
-?>
     <div class="text-center">
-    <ul class="portfolio-filter">
+      <ul class="portfolio-filter">
         <li><a class="active" href="#" data-filter="*">All Works</a></li>
         <li><a href="#" data-filter=".creative">Web</a></li>
         <li><a href="#" data-filter=".corporate">Android</a></li>
         <li><a href="#" data-filter=".desain">Desain</a></li>
         <li><a href="#" data-filter=".portfolio">Seni</a></li>
         <li><a href="#" data-filter=".sertifikat">Sertifikat</a></li>
-
       </ul>
-      <!--/#portfolio-filter-->
     </div>
-
-    <div class="portfolio-items">
-        <?php foreach ($webImages as $image): ?>
-        <div class="col-md-4 col-sm-6 col-xs-12 portfolio-item creative">
-            <div class="portfolio-item-inner">
-                <img class="img-responsive" src="<?php echo $image; ?>" alt="">
-                <div class="portfolio-info">
-                    <a class="preview" href="<?php echo $image; ?>" data-rel="prettyPhoto"><i class="fa fa-plus-circle"></i></a>
-                    <h6>Web Item</h6>
-                    <p>Lorem Ipsum</p>
-                </div>
-            </div>
-        </div>
-        <?php endforeach; ?>
-
-        <?php foreach ($sertifikatImages as $image): ?>
-        <div class="col-md-4 col-sm-6 col-xs-12 portfolio-item sertifikat">
-            <div class="portfolio-item-inner">
-                <img class="img-responsive" src="<?php echo $image; ?>" alt="">
-                <div class="portfolio-info">
-                    <a class="preview" href="<?php echo $image; ?>" data-rel="prettyPhoto"><i class="fa fa-plus-circle"></i></a>
-                    <h6>Sertifikat Item</h6>
-                    <p>Lorem Ipsum</p>
-                </div>
-            </div>
-        </div>
-        <?php endforeach; ?>
-
-        <?php foreach ($desainImages as $image): ?>
-        <div class="col-md-4 col-sm-6 col-xs-12 portfolio-item desain">
-            <div class="portfolio-item-inner">
-                <img class="img-responsive" src="<?php echo $image; ?>" alt="">
-                <div class="portfolio-info">
-                    <a class="preview" href="<?php echo $image; ?>" data-rel="prettyPhoto"><i class="fa fa-plus-circle"></i></a>
-                    <h6>Desain Item</h6>
-                </div>
-            </div>
-        </div>
-        <?php endforeach; ?>
-
-        <?php foreach ($seniImages as $image): ?>
-        <div class="col-md-4 col-sm-6 col-xs-12 portfolio-item portfolio">
-            <div class="portfolio-item-inner">
-                <img class="img-responsive" src="<?php echo $image; ?>" alt="">
-                <div class="portfolio-info">
-                    <a class="preview" href="<?php echo $image; ?>" data-rel="prettyPhoto"><i class="fa fa-plus-circle"></i></a>
-                    <h6>Seni Item</h6>
-                    <p>Lorem Ipsum</p>
-                </div>
-            </div>
-        </div>
-        <?php endforeach; ?>
-
-        <?php foreach ($androidImages as $image): ?>
-        <div class="col-md-4 col-sm-6 col-xs-12 portfolio-item corporate">
-            <div class="portfolio-item-inner">
-                <img class="img-responsive" src="<?php echo $image; ?>" alt="">
-                <div class="portfolio-info">
-                    <a class="preview" href="<?php echo $image; ?>" data-rel="prettyPhoto"><i class="fa fa-plus-circle"></i></a>
-                    <h6>Android Item</h6>
-                    <p>Lorem Ipsum</p>
-                </div>
-            </div>
-        </div>
-        <?php endforeach; ?>
-    </div>
+    <div class="portfolio-items" id="portfolio-items"></div>
   </div>
 </section>
+
+<script>
+  const categories = {
+    web: 'creative',
+    sertifikat: 'sertifikat',
+    desain: 'desain',
+    seni: 'portfolio',
+    android: 'corporate'
+  };
+
+  function getImagesFromFolder(folder) {
+    const images = [];
+    const imageTypes = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+    imageTypes.forEach(type => {
+      for (let i = 1; i <= 10; i++) { // Assume you have 10 images max per category
+        const imagePath = `${folder}/image${i}.${type}`;
+        images.push(imagePath);
+      }
+    });
+    return images;
+  }
+
+  function loadImages() {
+    const portfolioItems = document.getElementById('portfolio-items');
+    for (const category in categories) {
+      const images = getImagesFromFolder(`images/${category}`);
+      images.forEach(image => {
+        const imgElement = document.createElement('img');
+        imgElement.src = image;
+        imgElement.className = 'img-responsive';
+
+        const portfolioInfo = document.createElement('div');
+        portfolioInfo.className = 'portfolio-info';
+        portfolioInfo.innerHTML = `
+          <a class="preview" href="${image}" data-rel="prettyPhoto"><i class="fa fa-plus-circle"></i></a>
+          <h6>${category.charAt(0).toUpperCase() + category.slice(1)} Item</h6>
+          <p>Lorem Ipsum</p>
+        `;
+
+        const portfolioItemInner = document.createElement('div');
+        portfolioItemInner.className = 'portfolio-item-inner';
+        portfolioItemInner.appendChild(imgElement);
+        portfolioItemInner.appendChild(portfolioInfo);
+
+        const portfolioItem = document.createElement('div');
+        portfolioItem.className = `col-md-4 col-sm-6 col-xs-12 portfolio-item ${categories[category]}`;
+        portfolioItem.appendChild(portfolioItemInner);
+
+        portfolioItems.appendChild(portfolioItem);
+      });
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', loadImages);
+</script>
+
 
 <!--Blog-Section-Start-->
 <section id="blog">
